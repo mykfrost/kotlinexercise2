@@ -1,5 +1,4 @@
 package com.chinatown254.exercisetwo
-import androidx.navigation.NavController
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,14 +12,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.node.modifierElementOf
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
@@ -28,7 +23,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHost
 import com.chinatown254.exercisetwo.ui.theme.ExerciseTwoTheme
 
 class MainActivity : ComponentActivity() {
@@ -45,8 +39,7 @@ class MainActivity : ComponentActivity() {
 
                     }
                    // Greeting("Android")
-                    BackGroundImage(stringResource(R.string.title) ,
-                    stringResource(R.string.heading) , stringResource(R.string.body))
+                ComposeArticleApp()
                 }
             }
         }
@@ -54,51 +47,38 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun BackGroundImage(title: String, heading: String , body: String, modifier: Modifier = Modifier){
-    val image  = painterResource(R.drawable.bg_compose_background)
-    Box() {
-        Image(painter = image,
-            contentDescription = null,
-            contentScale = ContentScale.Crop ,
-            alpha = 0.5F ,
-            modifier = modifier
-            )
-        Texts(title = title, heading = heading, body = body)
-    }
+fun ComposeArticleApp() {
+    ArticleCard(
+        title = stringResource(R.string.title),
+        heading = stringResource(R.string.heading),
+        body = stringResource(R.string.body),
+        imagePainter = painterResource(R.drawable.bg_compose_background)
+    )
 }
-
 @Composable
-fun Texts(title : String , heading : String , body : String , modifier: Modifier = Modifier){
-    Column( verticalArrangement = Arrangement.Center ,
-     modifier = modifier){
+private fun ArticleCard(
+    title : String ,
+    heading : String ,
+    body : String ,
+    imagePainter : Painter,
+    modifier: Modifier = Modifier,
+){
+    Column(modifier = modifier) {
+        Image(painter = imagePainter, contentDescription = null)
         Text(
             text = title,
-            fontFamily = FontFamily.Serif,
-            fontSize = 24.sp,
-            lineHeight = 116.sp,
-            textAlign = TextAlign.Center ,
-            modifier = modifier
-                .padding(16.dp)
-
+            modifier = Modifier.padding(16.dp),
+            fontSize = 24.sp
         )
-
         Text(
             text = heading,
-            fontSize = 16.sp,
-            textAlign = TextAlign.Justify ,
-            modifier = Modifier
-                .padding(16.dp)
-                .align(alignment = Alignment.Start)
-
+            modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+            textAlign = TextAlign.Justify
         )
         Text(
             text = body,
-            fontSize = 16.sp,
-            textAlign = TextAlign.Justify ,
-            modifier = Modifier
-                .padding(16.dp)
-                .align(alignment = Alignment.Start)
-
+            modifier = Modifier.padding(16.dp),
+            textAlign = TextAlign.Justify
         )
     }
 }
@@ -107,7 +87,6 @@ fun Texts(title : String , heading : String , body : String , modifier: Modifier
 @Composable
 fun GreetingPreview() {
     ExerciseTwoTheme {
-        BackGroundImage(stringResource(R.string.title),
-            stringResource(R.string.heading) , stringResource(R.string.body ) )
+        ComposeArticleApp()
     }
 }
